@@ -16,8 +16,6 @@ public class AppPermission implements AppPermissionInterface {
 
     public static final int PERMISSION_REQUEST_STORAGE = 109;
 
-    public static final int GENERAL_PERMISSION_REQUEST = 131;
-
     private PermissionAlertDialog twoButtonDialog;
 
     private static AppPermission AppPermissionObject = new AppPermission();
