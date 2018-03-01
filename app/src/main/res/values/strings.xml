@@ -4,4 +4,7 @@
     <string name="photos">Photos</string>
     <string name="videos">Videos</string>
     <string name="gifs">GIFs</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="storage_permission">Please allow app to access sdcard and storage to cache important files and images.</string>
 </resources>
