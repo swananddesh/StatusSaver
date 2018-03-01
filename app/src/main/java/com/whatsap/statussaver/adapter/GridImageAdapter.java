@@ -7,8 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.QuickContactBadge;
-
 import com.bumptech.glide.Glide;
 import com.whatsap.statussaver.R;
 import java.io.File;
@@ -51,16 +49,25 @@ public class GridImageAdapter extends BaseAdapter {
         final ViewHolder holder;
 
         if (view == null) {
+
             view = this.mLayoutInflater.inflate(R.layout.photo_grid_item_layout, null);
+
             holder = new ViewHolder();
+
             holder.image = (ImageView) view.findViewById(R.id.img_photo);
+
             holder.position = position;
+
             view.setTag(holder);
+
         } else {
+
             holder = (ViewHolder) view.getTag();
+
         }
 
         holder.image.setScaleType(ImageView.ScaleType.CENTER_CROP);
+
         setBitmap(holder,position);
 
         return view;
@@ -70,11 +77,15 @@ public class GridImageAdapter extends BaseAdapter {
      * ViewHolder
      **/
     private static class ViewHolder {
+
         private ImageView image;
+
         private int position;
+
     }
 
     private void setBitmap(final ViewHolder holder, final int position) {
+
         Glide.with(activity)
                 .load(fileList.get(position).getAbsolutePath())
                 .into(holder.image);
