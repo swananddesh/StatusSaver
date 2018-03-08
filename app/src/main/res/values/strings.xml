@@ -7,4 +7,7 @@
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
     <string name="storage_permission">Please allow app to access sdcard and storage to cache important files and images.</string>
+    <string name="msg_exit_app">Do you want to exit the application?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>

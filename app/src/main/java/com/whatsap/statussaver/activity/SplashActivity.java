@@ -76,6 +76,7 @@ public class SplashActivity extends AppCompatActivity {
 
         startActivity(new Intent(activity, LandingActivity.class));
 
+        finish();
     }
 
     @Override
