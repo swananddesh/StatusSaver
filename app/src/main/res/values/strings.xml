@@ -10,4 +10,6 @@
     <string name="msg_exit_app">Do you want to exit the application?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="title_exit_app">Exit</string>
+    <string name="msg_image_saved">Image saved in gallery.</string>
 </resources>

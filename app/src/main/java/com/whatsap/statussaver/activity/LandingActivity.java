@@ -87,6 +87,7 @@ public class LandingActivity extends AppCompatActivity {
     private void exitApp() {
 
         AlertDialog alertBox = new AlertDialog.Builder(activity)
+                .setTitle(activity.getResources().getString(R.string.title_exit_app))
                 .setMessage(activity.getResources().getString(R.string.msg_exit_app))
                 .setPositiveButton(activity.getResources().getString(R.string.yes),
                         new DialogInterface.OnClickListener() {

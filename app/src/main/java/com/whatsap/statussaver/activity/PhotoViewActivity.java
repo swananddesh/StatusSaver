@@ -1,7 +1,11 @@
 package com.whatsap.statussaver.activity;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Environment;
 import android.support.v4.app.ShareCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +13,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Toast;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.whatsap.statussaver.BuildConfig;
@@ -16,18 +22,23 @@ import com.whatsap.statussaver.R;
 import com.whatsap.statussaver.utils.AppConstants;
 
 import java.io.File;
+import java.io.FileOutputStream;
 
 public class PhotoViewActivity extends AppCompatActivity {
 
+    private Activity activity;
     private ImageView statusImage;
     private String selectedPath;
     private ImageButton shareButton;
+    private ImageButton downloadButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_photo_view);
+
+        activity = this;
 
         getIntentData();
 
@@ -61,15 +72,17 @@ public class PhotoViewActivity extends AppCompatActivity {
 
         shareButton = findViewById(R.id.ibtn_share);
 
+        downloadButton = findViewById(R.id.ibtn_download);
     }
 
     private void setListeners() {
 
         shareButton.setOnClickListener(new ShareClickListener());
+
+        downloadButton.setOnClickListener(new DownloadImageClickListener());
     }
 
     private class ShareClickListener implements View.OnClickListener {
-
 
         @Override
         public void onClick(View view) {
@@ -94,6 +107,7 @@ public class PhotoViewActivity extends AppCompatActivity {
     }
 
     private void setStatusImage() {
+
         RequestOptions options = new RequestOptions();
         options.centerInside();
 
@@ -104,5 +118,71 @@ public class PhotoViewActivity extends AppCompatActivity {
     }
 
 
+    private class DownloadImageClickListener implements View.OnClickListener {
 
+        @Override
+        public void onClick(View view) {
+
+            Bitmap imageToSave = BitmapFactory.decodeFile(selectedPath);
+
+            // get file name from file path.
+            String fileName = selectedPath.substring(selectedPath.lastIndexOf("/") + 1);
+
+            if (imageToSave != null) {
+
+                createDirectoryAndSaveImage(imageToSave, fileName);
+            }
+        }
+    }
+
+    private void createDirectoryAndSaveImage(Bitmap imageToSave, String fileName) {
+
+        boolean isImageSaved = false;
+
+        File directory = new File(Environment.getExternalStorageDirectory(), "StatusSaver");
+
+        if (!directory.exists()) {
+
+            directory.mkdirs();
+        }
+
+        File file = new File(directory, fileName);
+
+        if (file.exists()) {
+
+            file.delete();
+        }
+
+        try{
+
+            FileOutputStream fOut = new FileOutputStream(file);
+
+            imageToSave.compress(Bitmap.CompressFormat.JPEG, 100, fOut);
+
+            fOut.flush();
+
+            fOut.close();
+
+            isImageSaved = true;
+
+            // MediaScanner is used to show respective image in media library as soon as
+            // it is downloaded.
+
+            Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+
+            intent.setData(Uri.fromFile(file));
+
+            sendBroadcast(intent);
+
+        } catch (Exception ex) {
+
+            ex.printStackTrace();
+        }
+
+        if (isImageSaved) {
+
+            Toast.makeText(activity, activity.getResources().getString(R.string.msg_image_saved), Toast.LENGTH_SHORT).show();
+        }
+
+    }
 }
