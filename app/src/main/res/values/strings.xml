@@ -6,10 +6,13 @@
     <string name="gifs">GIFs</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
-    <string name="storage_permission">Please allow app to access sdcard and storage to cache important files and images.</string>
+    <string name="storage_permission">In order to view images and videos of Whatsapp Statuses, please allow app to access sdcard and storage.</string>
     <string name="msg_exit_app">Do you want to exit the application?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="title_exit_app">Exit</string>
     <string name="msg_image_saved">Image saved in gallery.</string>
+    <string name="msg_video_saved">Video saved in gallery.</string>
+    <string name="share">Share</string>
+    <string name="save">Save</string>
 </resources>

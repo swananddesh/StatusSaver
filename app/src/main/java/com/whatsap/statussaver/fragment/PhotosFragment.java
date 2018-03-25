@@ -117,7 +117,7 @@ public class PhotosFragment extends Fragment {
 
 
     /**
-     * Get all the files within specified directory, store into an arraylist
+     * Get all the image files within specified directory, store into an arraylist
      * and return that arraylist.
      * @param dir
      **/

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_170"
+        android:layout_margin="4dp"
+        android:elevation="4dp"
+        android:layout_gravity="center">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/imgVideoThumbnail"
+                android:contentDescription="@string/app_name"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitXY"
+                />
+
+            <TextView
+                android:id="@+id/txtMenuOptions"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:text="&#8942;"
+                android:textSize="22sp"
+                android:textAppearance="?android:textAppearanceLarge"
+                android:layout_marginRight="@dimen/dp_15"
+                android:layout_marginTop="@dimen/dp_5"
+                android:padding="@dimen/dp_5"
+                android:textColor="@color/colorWhite"/>
+
+        </RelativeLayout>
+
+
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>

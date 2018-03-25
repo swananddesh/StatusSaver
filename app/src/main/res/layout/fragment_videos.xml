@@ -4,11 +4,12 @@
     android:layout_height="match_parent"
     tools:context="com.whatsap.statussaver.fragment.VideosFragment">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rvVideos"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="@string/videos"
-        android:textSize="40sp"
-        android:textStyle="bold"/>
+        android:scrollbars="vertical">
+
+    </android.support.v7.widget.RecyclerView>
+
 </RelativeLayout>

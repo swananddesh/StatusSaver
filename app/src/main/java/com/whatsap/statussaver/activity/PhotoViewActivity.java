@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Environment;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ShareCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +14,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -90,7 +92,7 @@ public class PhotoViewActivity extends AppCompatActivity {
             File shareFile = new File(selectedPath);
 
             Uri uriToImage = FileProvider.getUriForFile(
-                    PhotoViewActivity.this, BuildConfig.APPLICATION_ID+".provider", shareFile);
+                    PhotoViewActivity.this, BuildConfig.APPLICATION_ID + ".provider", shareFile);
 
             Intent shareIntent = ShareCompat.IntentBuilder.from(PhotoViewActivity.this)
                     .setStream(uriToImage)
@@ -130,12 +132,12 @@ public class PhotoViewActivity extends AppCompatActivity {
 
             if (imageToSave != null) {
 
-                createDirectoryAndSaveImage(imageToSave, fileName);
+                createDirectoryAndSaveImage(imageToSave, fileName, view);
             }
         }
     }
 
-    private void createDirectoryAndSaveImage(Bitmap imageToSave, String fileName) {
+    private void createDirectoryAndSaveImage(Bitmap imageToSave, String fileName, View view) {
 
         boolean isImageSaved = false;
 
@@ -181,7 +183,21 @@ public class PhotoViewActivity extends AppCompatActivity {
 
         if (isImageSaved) {
 
-            Toast.makeText(activity, activity.getResources().getString(R.string.msg_image_saved), Toast.LENGTH_SHORT).show();
+            Snackbar snackbar;
+
+            snackbar = Snackbar.make(view, activity.getResources().getString(R.string.msg_image_saved), Snackbar.LENGTH_LONG);
+
+            View snackBarView = snackbar.getView();
+
+            snackBarView.setBackgroundColor(activity.getResources().getColor(R.color.colorPrimaryDark));
+
+            TextView textView = (TextView) snackBarView.findViewById(android.support.design.R.id.snackbar_text);
+
+            textView.setTextColor(activity.getResources().getColor(R.color.colorWhite));
+
+            textView.setCompoundDrawablesWithIntrinsicBounds(0, 0,R.drawable.ic_done_black_24dp, 0);
+
+            snackbar.show();
         }
 
     }

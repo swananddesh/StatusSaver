@@ -19,5 +19,6 @@
     <dimen name="dp_70">70dp</dimen>
     <dimen name="dp_100">100dp</dimen>
     <dimen name="dp_50">50dp</dimen>
+    <dimen name="dp_170">170dp</dimen>
 
 </resources>
