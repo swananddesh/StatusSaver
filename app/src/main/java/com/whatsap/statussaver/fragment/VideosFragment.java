@@ -10,6 +10,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.whatsap.statussaver.R;
 import com.whatsap.statussaver.adapter.VideosRecyclerAdapter;
@@ -31,6 +33,10 @@ public class VideosFragment extends Fragment {
     private RecyclerView rvVideos;
 
     private RecyclerView.LayoutManager layoutManager;
+
+    private ImageView imgInfoIcon;
+
+    private TextView txtInfo;
 
 
     public VideosFragment() {
@@ -62,6 +68,11 @@ public class VideosFragment extends Fragment {
     private void initView(View view) {
 
         rvVideos = (RecyclerView) view.findViewById(R.id.rvVideos);
+
+        imgInfoIcon = (ImageView) view.findViewById(R.id.img_info_icon);
+
+        txtInfo = (TextView) view.findViewById(R.id.txt_info_msg);
+
     }
 
     private void setAdapter() {
@@ -77,6 +88,14 @@ public class VideosFragment extends Fragment {
             VideosRecyclerAdapter recyclerAdapter = new VideosRecyclerAdapter(allVideoFiles, getActivity());
 
             rvVideos.setAdapter(recyclerAdapter);
+
+        } else {
+
+            rvVideos.setVisibility(View.GONE);
+
+            imgInfoIcon.setVisibility(View.VISIBLE);
+
+            txtInfo.setVisibility(View.VISIBLE);
 
         }
     }

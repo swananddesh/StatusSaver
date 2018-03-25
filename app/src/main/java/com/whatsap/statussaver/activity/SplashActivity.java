@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Handler;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -43,6 +44,7 @@ public class SplashActivity extends AppCompatActivity {
         if (!isDialogShowing) {
 
             methodRequiresPermission();
+
         }
     }
 
@@ -74,9 +76,18 @@ public class SplashActivity extends AppCompatActivity {
      * Method to go to LandingActivity*/
     private void startAppProcess() {
 
-        startActivity(new Intent(activity, LandingActivity.class));
+//        startActivity(new Intent(activity, LandingActivity.class));
+//
+//        finish();
 
-        finish();
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                startActivity(new Intent(SplashActivity.this, LandingActivity.class));
+                SplashActivity.this.finish();
+            }
+        }, 3000);
     }
 
     @Override
@@ -120,8 +131,8 @@ public class SplashActivity extends AppCompatActivity {
                         alertDialogProperties.setCancelable(false);
                         alertDialogProperties.setCancelButtonColor(activity.getResources().getColor(R.color.colorPrimary));
                         alertDialogProperties.setOkayButtonColor(activity.getResources().getColor(R.color.colorPrimary));
-                        alertDialogProperties.setCancelButtonText("Exit");
-                        alertDialogProperties.setOkayButtonText("Ok");
+                        alertDialogProperties.setCancelButtonText(activity.getResources().getString(R.string.exit));
+                        alertDialogProperties.setOkayButtonText(activity.getResources().getString(R.string.ok));
                         alertDialogProperties.setMessageTextColor(activity.getResources().getColor(R.color.colorBlack));
                         alertDialogProperties.setOkayButtonListener(new OKButtonListener());
                         alertDialogProperties.setCancelButtonListener(new CancelButtonListener());
@@ -139,8 +150,8 @@ public class SplashActivity extends AppCompatActivity {
                         alertDialogProperties.setCancelable(false);
                         alertDialogProperties.setCancelButtonColor(activity.getResources().getColor(R.color.colorPrimary));
                         alertDialogProperties.setOkayButtonColor(activity.getResources().getColor(R.color.colorPrimary));
-                        alertDialogProperties.setCancelButtonText("Exit");
-                        alertDialogProperties.setOkayButtonText("App Settings");
+                        alertDialogProperties.setCancelButtonText(activity.getResources().getString(R.string.exit));
+                        alertDialogProperties.setOkayButtonText(activity.getResources().getString(R.string.app_settings));
                         alertDialogProperties.setMessageTextColor(activity.getResources().getColor(R.color.colorBlack));
                         alertDialogProperties.setOkayButtonListener(new GoToSettings());
                         alertDialogProperties.setCancelButtonListener(new CancelButtonListener());

@@ -3,7 +3,6 @@
 
     <string name="photos">Photos</string>
     <string name="videos">Videos</string>
-    <string name="gifs">GIFs</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
     <string name="storage_permission">In order to view images and videos of Whatsapp Statuses, please allow app to access sdcard and storage.</string>
@@ -15,4 +14,8 @@
     <string name="msg_video_saved">Video saved in gallery.</string>
     <string name="share">Share</string>
     <string name="save">Save</string>
+    <string name="msg_warn_no_videos_available">No videos available.</string>
+    <string name="msg_warn_no_images_available">No photos available.</string>
+    <string name="exit">Exit</string>
+    <string name="app_settings">App Settings</string>
 </resources>

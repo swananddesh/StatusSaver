@@ -10,6 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ImageView;
+import android.widget.TextView;
+
 import com.whatsap.statussaver.R;
 import com.whatsap.statussaver.activity.PhotoViewActivity;
 import com.whatsap.statussaver.adapter.GridImageAdapter;
@@ -29,6 +32,11 @@ public class PhotosFragment extends Fragment {
     private GridView gvPhotos;
 
     private GridImageAdapter gridImageAdapter;
+
+    private ImageView imgInfoIcon;
+
+    private TextView txtInfo;
+
 
     public PhotosFragment() {
         // Required empty public constructor
@@ -59,6 +67,11 @@ public class PhotosFragment extends Fragment {
     private void initView(View view) {
 
         gvPhotos = (GridView) view.findViewById(R.id.gv_photos);
+
+        imgInfoIcon = (ImageView) view.findViewById(R.id.img_info_icon);
+
+        txtInfo = (TextView) view.findViewById(R.id.txt_info_msg);
+
     }
 
     private void setListener() {
@@ -74,6 +87,13 @@ public class PhotosFragment extends Fragment {
 
             gvPhotos.setAdapter(gridImageAdapter);
 
+        } else {
+
+            gvPhotos.setVisibility(View.GONE);
+
+            imgInfoIcon.setVisibility(View.VISIBLE);
+
+            txtInfo.setVisibility(View.VISIBLE);
         }
     }
 

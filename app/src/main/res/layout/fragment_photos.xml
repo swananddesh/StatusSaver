@@ -21,4 +21,24 @@
         android:fastScrollEnabled="true"
         android:scrollbars="vertical"/>
 
+    <ImageView
+        android:id="@+id/img_info_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:src="@drawable/info_icon"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/txt_info_msg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_below="@+id/img_info_icon"
+        android:layout_marginTop="@dimen/dp_5"
+        android:textColor="@color/info_msg_color"
+        android:textSize="17sp"
+        android:text="@string/msg_warn_no_images_available"
+        android:visibility="gone"/>
+
 </RelativeLayout>

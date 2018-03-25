@@ -129,7 +129,7 @@ public class AppPermission implements AppPermissionInterface {
             String message = "";
 
             for (int i = 0; i < permissionNames.length; i++) {
-                message = message + "&#8226;";
+                message = message + "&#8226;" + " ";
                 if (permissionNames[i].contains("STORAGE")) {
 
                     message = message + activity.getResources().getString(R.string.storage_permission);
