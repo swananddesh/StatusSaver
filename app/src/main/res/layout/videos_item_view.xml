@@ -33,12 +33,14 @@
                 android:layout_alignParentTop="true"
                 android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:text="&#8942;"
+                android:gravity="center"
                 android:textSize="22sp"
                 android:textAppearance="?android:textAppearanceLarge"
-                android:layout_marginRight="@dimen/dp_15"
+                android:layout_marginRight="@dimen/dp_10"
                 android:layout_marginTop="@dimen/dp_5"
                 android:padding="@dimen/dp_5"
-                android:textColor="@color/colorWhite"/>
+                android:textColor="@color/colorWhite"
+                android:background="@color/colorBlack"/>
 
         </RelativeLayout>
 

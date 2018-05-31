@@ -101,7 +101,7 @@ public class VideosFragment extends Fragment {
     }
 
     /**
-     * Get all the whatsapp status photos
+     * Get all the whatsapp status videos
      **/
     private void getAllStatusVideos() {
 
