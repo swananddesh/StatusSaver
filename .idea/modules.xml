@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/AndroidStudioProjects-StatusSaver.iml" filepath="$PROJECT_DIR$/.idea/modules/AndroidStudioProjects-StatusSaver.iml" group="StatusSaver" />
       <module fileurl="file://$PROJECT_DIR$/StatusSaver.iml" filepath="$PROJECT_DIR$/StatusSaver.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/StatusSaver-app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/StatusSaver-app.iml" group="StatusSaver/app" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.whatsap.statussaver">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:icon="@drawable/status_saver_app_logo"
         android:label="@string/app_name"
         android:supportsRtl="false"
         android:largeHeap="true"
-        android:theme="@style/MaterialTheme.Base">
+        android:theme="@style/MaterialTheme.Base"
+        tools:ignore="AllowBackup">
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="${applicationId}.provider"
