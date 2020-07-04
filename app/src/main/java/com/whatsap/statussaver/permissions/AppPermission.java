@@ -3,8 +3,9 @@ package com.whatsap.statussaver.permissions;
 import android.Manifest;
 import android.app.Activity;
 import android.content.pm.PackageManager;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import com.whatsap.statussaver.R;
 import java.util.ArrayList;
 
@@ -15,11 +16,8 @@ import java.util.ArrayList;
 public class AppPermission implements AppPermissionInterface {
 
     public static final int PERMISSION_REQUEST_STORAGE = 109;
-
     private PermissionAlertDialog twoButtonDialog;
-
     private static AppPermission AppPermissionObject = new AppPermission();
-
     private AppPermission() {
 
     }
@@ -32,30 +30,19 @@ public class AppPermission implements AppPermissionInterface {
     }
 
     private String getPermissionName(int permission) {
-
         String permissionName = "";
-
-        switch (permission) {
-
-            case PERMISSION_REQUEST_STORAGE:
-                permissionName = Manifest.permission.WRITE_EXTERNAL_STORAGE;
-                break;
+        if (permission == PERMISSION_REQUEST_STORAGE) {
+            permissionName = Manifest.permission.WRITE_EXTERNAL_STORAGE;
         }
-
         return permissionName;
     }
 
     @Override
     public boolean requestPermissionList(Activity activity, int[] permissionCode, int requestCode) {
-
         boolean permissionFlag = false;
-
         ArrayList<String> permissionArray = new ArrayList<>();
-
-        for (int i = 0; i < permissionCode.length; i++) {
-
-            String permissionName = getPermissionName(permissionCode[i]);
-
+        for (int value : permissionCode) {
+            String permissionName = getPermissionName(value);
             if (ContextCompat.checkSelfPermission(activity, permissionName) != PackageManager.PERMISSION_GRANTED) {
                 permissionArray.add(permissionName);
                 permissionFlag = true;
@@ -63,47 +50,31 @@ public class AppPermission implements AppPermissionInterface {
         }
 
         if (!permissionArray.isEmpty()) {
-
             String[] tempArray = new String[permissionArray.size()];
-
             permissionArray.toArray(tempArray);
-
             permissionArray.clear();
-
             ActivityCompat.requestPermissions(activity, tempArray,
                     requestCode);
         }
-
         return permissionFlag;
     }
 
     @Override
-    public boolean requestPermissionList(Activity activity, String[] permissionCode, int requestCode) {
-
-        boolean permissionFlag = false;
-
+    public void requestPermissionList(Activity activity, @NonNull String[] permissionCode, int requestCode) {
         ArrayList<String> permissionArray = new ArrayList<>();
 
-        for (int i = 0; i < permissionCode.length; i++) {
-
-            String permissionName = permissionCode[i];
-
+        for (String permissionName : permissionCode) {
             if (ContextCompat.checkSelfPermission(activity, permissionName) != PackageManager.PERMISSION_GRANTED) {
                 permissionArray.add(permissionName);
-                permissionFlag = true;
             }
         }
         if (!permissionArray.isEmpty()) {
-
             String[] tempArray = new String[permissionArray.size()];
             permissionArray.toArray(tempArray);
             permissionArray.clear();
             ActivityCompat.requestPermissions(activity, tempArray,
                     requestCode);
         }
-
-
-        return permissionFlag;
     }
 
 
@@ -123,18 +94,17 @@ public class AppPermission implements AppPermissionInterface {
 
     }
 
-    private void showDialog(Activity activity, AlertDialogProperties alertDialogProperties, String permissionNames[]) {
+    private void showDialog(Activity activity, AlertDialogProperties alertDialogProperties, String[] permissionNames) {
 
         if (alertDialogProperties.getMessage() == null || alertDialogProperties.getMessage().length() == 0) {
             String message = "";
 
-            for (int i = 0; i < permissionNames.length; i++) {
+            for (String permissionName : permissionNames) {
                 message = message + "&#8226;" + " ";
-                if (permissionNames[i].contains("STORAGE")) {
+                if (permissionName.contains("STORAGE")) {
 
                     message = message + activity.getResources().getString(R.string.storage_permission);
                 }
-
                 message = message + "<br/>";
             }
             alertDialogProperties.setMessage(message);
@@ -143,7 +113,6 @@ public class AppPermission implements AppPermissionInterface {
         twoButtonDialog = new PermissionAlertDialog(activity, alertDialogProperties);
         twoButtonDialog.show();
         twoButtonDialog.setCancelable(alertDialogProperties.isCancelable());
-
     }
 
 }

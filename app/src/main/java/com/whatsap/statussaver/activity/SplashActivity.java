@@ -7,9 +7,10 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 import android.provider.Settings;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import com.whatsap.statussaver.R;
 import com.whatsap.statussaver.permissions.AlertDialogProperties;
 import com.whatsap.statussaver.permissions.AppPermission;
@@ -23,10 +24,8 @@ public class SplashActivity extends AppCompatActivity {
     private boolean isDialogShowing = false;
     private AppPermission appPermission;
     private String[] permissionArray;
-    private ArrayList<String> listRational;
 
     public static final int MULTIPLE_PERMISSION_REQUEST = 130;
-    private AlertDialogProperties alertDialogProperties;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +62,7 @@ public class SplashActivity extends AppCompatActivity {
 
         appPermission = AppPermission.getInstance();
 
-        int permission[] = {PERMISSION_REQUEST_STORAGE};
+        int[] permission = {PERMISSION_REQUEST_STORAGE};
 
         if (!appPermission.requestPermissionList(activity, permission, MULTIPLE_PERMISSION_REQUEST)) {
 
@@ -91,78 +90,74 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 
         ArrayList<String> tempPermissionList;
-        listRational = new ArrayList<>();
+        ArrayList<String> listRational = new ArrayList<>();
 
-        switch (requestCode) {
+        if (requestCode == MULTIPLE_PERMISSION_REQUEST) {
+            // If request is cancelled, the result arrays are empty.
+            tempPermissionList = new ArrayList<>();
+            if (grantResults.length > 0) {
+                for (int i = 0; i < grantResults.length; i++) {
 
-            case MULTIPLE_PERMISSION_REQUEST:
-                // If request is cancelled, the result arrays are empty.
+                    if (Build.VERSION.SDK_INT >= 23) {
+                        boolean showRationale = shouldShowRequestPermissionRationale(permissions[i]);
 
-                tempPermissionList = new ArrayList<>();
+                        if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
+                            if (!showRationale)
+                                listRational.add(permissions[i]);
+                            else
+                                tempPermissionList.add(permissions[i]);
 
-                if (grantResults.length > 0) {
-                    for (int i = 0; i < grantResults.length; i++) {
-
-                        if (Build.VERSION.SDK_INT >= 23) {
-                            boolean showRationale = shouldShowRequestPermissionRationale(permissions[i]);
-
-                            if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
-
-                                if (!showRationale)
-                                    listRational.add(permissions[i]);
-                                else
-                                    tempPermissionList.add(permissions[i]);
-
-                            }
                         }
                     }
-
-                    if (!tempPermissionList.isEmpty()) {
-                        isDialogShowing = true;
-                        String[] tempArray = new String[tempPermissionList.size()];
-                        tempPermissionList.toArray(tempArray);
-                        tempPermissionList.clear();
-                        permissionArray = tempArray;
-                        alertDialogProperties = new AlertDialogProperties();
-                        alertDialogProperties.setButtontextColor(activity.getResources().getColor(R.color.colorWhite));
-                        alertDialogProperties.setCancelable(false);
-                        alertDialogProperties.setCancelButtonColor(activity.getResources().getColor(R.color.colorPrimary));
-                        alertDialogProperties.setOkayButtonColor(activity.getResources().getColor(R.color.colorPrimary));
-                        alertDialogProperties.setCancelButtonText(activity.getResources().getString(R.string.exit));
-                        alertDialogProperties.setOkayButtonText(activity.getResources().getString(R.string.ok));
-                        alertDialogProperties.setMessageTextColor(activity.getResources().getColor(R.color.colorBlack));
-                        alertDialogProperties.setOkayButtonListener(new OKButtonListener());
-                        alertDialogProperties.setCancelButtonListener(new CancelButtonListener());
-                        appPermission.showPermissionDialog(activity, alertDialogProperties, permissionArray);
-
-                    } else if (!listRational.isEmpty()) {
-                        isDialogShowing = true;
-
-                        String[] tempArray = new String[listRational.size()];
-                        listRational.toArray(tempArray);
-                        tempPermissionList.clear();
-                        permissionArray = tempArray;
-                        alertDialogProperties = new AlertDialogProperties();
-                        alertDialogProperties.setButtontextColor(activity.getResources().getColor(R.color.colorWhite));
-                        alertDialogProperties.setCancelable(false);
-                        alertDialogProperties.setCancelButtonColor(activity.getResources().getColor(R.color.colorPrimary));
-                        alertDialogProperties.setOkayButtonColor(activity.getResources().getColor(R.color.colorPrimary));
-                        alertDialogProperties.setCancelButtonText(activity.getResources().getString(R.string.exit));
-                        alertDialogProperties.setOkayButtonText(activity.getResources().getString(R.string.app_settings));
-                        alertDialogProperties.setMessageTextColor(activity.getResources().getColor(R.color.colorBlack));
-                        alertDialogProperties.setOkayButtonListener(new GoToSettings());
-                        alertDialogProperties.setCancelButtonListener(new CancelButtonListener());
-                        appPermission.showPermissionDialog(activity, alertDialogProperties, permissionArray);
-
-                    } else {
-
-                        startAppProcess();
-                    }
-
                 }
+
+                AlertDialogProperties alertDialogProperties;
+                if (!tempPermissionList.isEmpty()) {
+                    isDialogShowing = true;
+                    String[] tempArray = new String[tempPermissionList.size()];
+                    tempPermissionList.toArray(tempArray);
+                    tempPermissionList.clear();
+                    permissionArray = tempArray;
+                    alertDialogProperties = new AlertDialogProperties();
+                    alertDialogProperties.setButtontextColor(activity.getResources().getColor(R.color.colorWhite));
+                    alertDialogProperties.setCancelable(false);
+                    alertDialogProperties.setCancelButtonColor(activity.getResources().getColor(R.color.colorPrimary));
+                    alertDialogProperties.setOkayButtonColor(activity.getResources().getColor(R.color.colorPrimary));
+                    alertDialogProperties.setCancelButtonText(activity.getResources().getString(R.string.exit));
+                    alertDialogProperties.setOkayButtonText(activity.getResources().getString(R.string.ok));
+                    alertDialogProperties.setMessageTextColor(activity.getResources().getColor(R.color.colorBlack));
+                    alertDialogProperties.setOkayButtonListener(new OKButtonListener());
+                    alertDialogProperties.setCancelButtonListener(new CancelButtonListener());
+                    appPermission.showPermissionDialog(activity, alertDialogProperties, permissionArray);
+
+                } else if (!listRational.isEmpty()) {
+                    isDialogShowing = true;
+
+                    String[] tempArray = new String[listRational.size()];
+                    listRational.toArray(tempArray);
+                    tempPermissionList.clear();
+                    permissionArray = tempArray;
+                    alertDialogProperties = new AlertDialogProperties();
+                    alertDialogProperties.setButtontextColor(activity.getResources().getColor(R.color.colorWhite));
+                    alertDialogProperties.setCancelable(false);
+                    alertDialogProperties.setCancelButtonColor(activity.getResources().getColor(R.color.colorPrimary));
+                    alertDialogProperties.setOkayButtonColor(activity.getResources().getColor(R.color.colorPrimary));
+                    alertDialogProperties.setCancelButtonText(activity.getResources().getString(R.string.exit));
+                    alertDialogProperties.setOkayButtonText(activity.getResources().getString(R.string.app_settings));
+                    alertDialogProperties.setMessageTextColor(activity.getResources().getColor(R.color.colorBlack));
+                    alertDialogProperties.setOkayButtonListener(new GoToSettings());
+                    alertDialogProperties.setCancelButtonListener(new CancelButtonListener());
+                    appPermission.showPermissionDialog(activity, alertDialogProperties, permissionArray);
+
+                } else {
+
+                    startAppProcess();
+                }
+
+            }
         }
 
     }
@@ -172,10 +167,8 @@ public class SplashActivity extends AppCompatActivity {
      * Ask for permission again click on OK
      **/
     class OKButtonListener implements View.OnClickListener {
-
         @Override
         public void onClick(View v) {
-
             appPermission.requestPermissionList(activity, permissionArray, MULTIPLE_PERMISSION_REQUEST);
             appPermission.closeDialog();
         }
@@ -183,11 +176,8 @@ public class SplashActivity extends AppCompatActivity {
 
 
     class CancelButtonListener implements View.OnClickListener {
-
-
         @Override
         public void onClick(View v) {
-
             appPermission.closeDialog();
             onBackPressed();
         }

@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Environment;
-import android.support.design.widget.Snackbar;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,7 +11,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
+import com.google.android.material.snackbar.Snackbar;
 import com.whatsap.statussaver.R;
 import java.io.File;
 import java.io.FileInputStream;
@@ -39,6 +40,7 @@ public class VideosRecyclerAdapter extends RecyclerView.Adapter<VideosRecyclerAd
 
     }
 
+    @NonNull
     @Override
     public VideoViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
@@ -52,22 +54,18 @@ public class VideosRecyclerAdapter extends RecyclerView.Adapter<VideosRecyclerAd
     public void onBindViewHolder(final VideoViewHolder holder, int position) {
 
         final File currentFile = videosFilesList.get(position);
-
         Glide.with(activity)
                 .load(Uri.fromFile(new File(currentFile.getAbsolutePath())))
                 .into(holder.imgVideoThumbnail);
 
         holder.txtMenuOptions.setOnClickListener(new OptionMenuClickListener(holder, currentFile));
-
     }
 
     /**
      * Popup will appear when click on Menu options.
      **/
     private class OptionMenuClickListener implements View.OnClickListener {
-
         private VideoViewHolder holder;
-
         private File currentFile;
 
         public OptionMenuClickListener(VideoViewHolder holder, File currentFile) {
@@ -77,50 +75,32 @@ public class VideosRecyclerAdapter extends RecyclerView.Adapter<VideosRecyclerAd
 
         @Override
         public void onClick(final View view) {
-
             PopupMenu popupMenu = new PopupMenu(activity, holder.txtMenuOptions);
-
             popupMenu.inflate(R.menu.menu_options);
-
             popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                 @Override
                 public boolean onMenuItemClick(MenuItem menuItem) {
 
                     switch (menuItem.getItemId()) {
-
                         case R.id.menuShare:
-
                             shareVideo(currentFile);
-
                             break;
 
                         case R.id.menuSave:
-
                             try {
-
                                 saveVideo(currentFile, new File(Environment.getExternalStorageDirectory() ,"StatusSaver Videos/" + currentFile.getName()), activity);
-
                             } catch (IOException e) {
-
                                 e.printStackTrace();
                             }
 
                             Snackbar snackbar;
-
                             snackbar = Snackbar.make(view, activity.getResources().getString(R.string.msg_video_saved), Snackbar.LENGTH_LONG);
-
                             View snackBarView = snackbar.getView();
-
                             snackBarView.setBackgroundColor(activity.getResources().getColor(R.color.colorPrimaryDark));
-
-                            TextView textView = (TextView) snackBarView.findViewById(android.support.design.R.id.snackbar_text);
-
+                            TextView textView = snackBarView.findViewById(com.google.android.material.R.id.snackbar_text);
                             textView.setTextColor(activity.getResources().getColor(R.color.colorWhite));
-
                             textView.setCompoundDrawablesWithIntrinsicBounds(0, 0,R.drawable.ic_done_black_24dp, 0);
-
                             snackbar.show();
-
                             break;
                     }
                     return false;
@@ -136,15 +116,10 @@ public class VideosRecyclerAdapter extends RecyclerView.Adapter<VideosRecyclerAd
      * Function to share video
      **/
     private void shareVideo(File selectedVideoFileToShare) {
-
         Intent sharingIntent = new Intent(Intent.ACTION_SEND);
-
         sharingIntent.setType("video/*");
-
         sharingIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(selectedVideoFileToShare));
-
         activity.startActivity(Intent.createChooser(sharingIntent, ""));
-
     }
 
     /**
@@ -154,12 +129,10 @@ public class VideosRecyclerAdapter extends RecyclerView.Adapter<VideosRecyclerAd
     private void saveVideo(File sourceFile, File destFile, Activity activity) throws IOException {
 
         if (!destFile.getParentFile().exists()) {
-
             destFile.getParentFile().mkdirs();
         }
 
         if (!destFile.exists()) {
-
             destFile.createNewFile();
         }
 
@@ -167,19 +140,12 @@ public class VideosRecyclerAdapter extends RecyclerView.Adapter<VideosRecyclerAd
         FileChannel destination = null;
 
         try {
-
             source = new FileInputStream(sourceFile).getChannel();
-
             destination = new FileOutputStream(destFile).getChannel();
-
             destination.transferFrom(source, 0, source.size());
-
             Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-
             Uri contentUri = Uri.fromFile(destFile);
-
             mediaScanIntent.setData(contentUri);
-
             activity.sendBroadcast(mediaScanIntent);
 
         } finally {
@@ -197,19 +163,15 @@ public class VideosRecyclerAdapter extends RecyclerView.Adapter<VideosRecyclerAd
         return videosFilesList.size();
     }
 
-    public class VideoViewHolder extends RecyclerView.ViewHolder {
-
+    public static class VideoViewHolder extends RecyclerView.ViewHolder {
         private ImageView imgVideoThumbnail;
-
         private TextView txtMenuOptions;
 
         public VideoViewHolder(View itemView) {
             super(itemView);
 
-            imgVideoThumbnail = (ImageView) itemView.findViewById(R.id.imgVideoThumbnail);
-
-            txtMenuOptions = (TextView) itemView.findViewById(R.id.txtMenuOptions);
-
+            imgVideoThumbnail = itemView.findViewById(R.id.imgVideoThumbnail);
+            txtMenuOptions = itemView.findViewById(R.id.txtMenuOptions);
         }
     }
 }

@@ -9,13 +9,8 @@ import android.os.Bundle;
 import android.text.Html;
 import android.widget.Button;
 import android.widget.TextView;
-
 import com.whatsap.statussaver.R;
 import com.whatsap.statussaver.utils.AppConstants;
-
-/**
- * Created by Swanand Deshpande on 1/3/18.
- */
 
 
 /**
@@ -25,10 +20,7 @@ import com.whatsap.statussaver.utils.AppConstants;
 public class PermissionAlertDialog extends AlertDialog {
 
     private Typeface typeFaceMyriad;
-    private TextView txtNotificationMsg;
-    private Button btnOkay;
     private Activity activity;
-    private Button btnCancel;
     private String okayMsg;
     private String cancelMsg;
     private String message;
@@ -43,7 +35,6 @@ public class PermissionAlertDialog extends AlertDialog {
         this.cancelMsg = alertDialogProperties.getCancelButtonText();
         this.alertDialogProperties = alertDialogProperties;
         typeFaceMyriad = Typeface.create(AppConstants.FONT_TYPE_VARELA_ROUND, Typeface.NORMAL);
-
     }
 
     @Override
@@ -51,23 +42,20 @@ public class PermissionAlertDialog extends AlertDialog {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.permission_dialog);
-
         getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-
         initUI();
     }
 
 
     private void initUI() {
-
-        txtNotificationMsg = (TextView) findViewById(R.id.txt_common_msg);
+        TextView txtNotificationMsg = findViewById(R.id.txt_common_msg);
         if (alertDialogProperties.getMessageTextColor() == 0)
             txtNotificationMsg.setTextColor(activity.getResources().getColor(R.color.colorBlack));
         else
             txtNotificationMsg.setTextColor(alertDialogProperties.getMessageTextColor());
 
-        btnCancel = (Button) findViewById(R.id.btn_cancel);
-        btnOkay = (Button) findViewById(R.id.btn_okay);
+        Button btnCancel = findViewById(R.id.btn_cancel);
+        Button btnOkay = findViewById(R.id.btn_okay);
 
         btnOkay.setTypeface(typeFaceMyriad);
         btnCancel.setTypeface(typeFaceMyriad);
@@ -103,6 +91,5 @@ public class PermissionAlertDialog extends AlertDialog {
             okayMsg = activity.getResources().getString(R.string.cancel);
         btnOkay.setText(okayMsg);
         btnCancel.setText(cancelMsg);
-
     }
 }

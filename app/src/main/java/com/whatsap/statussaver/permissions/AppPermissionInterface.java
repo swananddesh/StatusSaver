@@ -7,13 +7,8 @@ import android.app.Activity;
  */
 
 public interface AppPermissionInterface {
-
-    boolean requestPermissionList(Activity activity, int permissionCode[], int requestCode);
-
-    boolean requestPermissionList(Activity activity, String permissionCode[], int requestCode);
-
-    void showPermissionDialog(Activity activity, AlertDialogProperties alertDialogProperties, String permissionNames[]);
-
+    boolean requestPermissionList(Activity activity, int[] permissionCode, int requestCode);
+    void requestPermissionList(Activity activity, String[] permissionCode, int requestCode);
+    void showPermissionDialog(Activity activity, AlertDialogProperties alertDialogProperties, String[] permissionNames);
     void closeDialog();
-
 }
